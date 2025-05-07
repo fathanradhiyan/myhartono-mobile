@@ -1,10 +1,8 @@
 part of 'widgets.dart';
 
 class BrandShopCard extends StatelessWidget {
-  final String backgroundImage;
-  final String image;
-  final String title;
-  const BrandShopCard({super.key, required this.backgroundImage, required this.image, required this.title});
+  final OfficalBrand officialBrand;
+  const BrandShopCard({super.key, required this.officialBrand});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class BrandShopCard extends StatelessWidget {
                       topRight: Radius.circular(8),
                     ),
                     image: DecorationImage(
-                      image: AssetImage(backgroundImage),
+                      image: AssetImage(officialBrand.backgroundImage),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -50,13 +48,13 @@ class BrandShopCard extends StatelessWidget {
                           ),
                           padding: const EdgeInsets.all(12),
                           child: Image.asset(
-                            image,
+                            officialBrand.image,
                             fit: BoxFit.contain,
                           ),
                         ),
                         SizedBox(height: 24,),
                         Text(
-                          title,
+                          officialBrand.title,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ],

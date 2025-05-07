@@ -40,55 +40,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final productItem = [
-      ProductCard(
-        imageUrl: "assets/images/ship.png",
-        name: SharedString.productName,
-        price: SharedString.productPrice,
-        realPrice: SharedString.productPrice,
-        quantity: 12,
-      ),
-      ProductCard(
-        imageUrl: "assets/images/monitor.jpeg",
-        name: SharedString.productName,
-        price: SharedString.productPrice,
-        realPrice: SharedString.productPrice,
-        quantity: 80,
-      ),
-      ProductCard(
-        imageUrl: SharedImage.profilePic,
-        name: SharedString.productName,
-        price: SharedString.productPrice,
-        realPrice: SharedString.productPrice,
-        quantity: 25,
-      ),
-    ];
-
-    final brandShops = [
-      BrandShopCard(
-        backgroundImage: "assets/images/pjp.jpg",
-        image: SharedImage.profilePic,
-        title: "Samsung",
-      ),
-      BrandShopCard(
-        backgroundImage: "assets/images/pjp.jpg",
-        image: SharedImage.profilePic,
-        title: "Akari",
-      ),
-      BrandShopCard(
-        backgroundImage: "assets/images/pjp.jpg",
-        image: SharedImage.profilePic,
-        title: "Aquos",
-      ),
-    ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           if (scrollNotification.metrics.axis == Axis.vertical) {
-            final collapsed = scrollNotification.metrics.pixels >= (120 - kToolbarHeight);
+            final collapsed =
+                scrollNotification.metrics.pixels >= (120 - kToolbarHeight);
             if (collapsed != isCollapsed) {
               setState(() {
                 isCollapsed = collapsed;
@@ -100,14 +59,13 @@ class _HomePageState extends State<HomePage> {
         child: CustomScrollView(
           slivers: [
             buildSliverAppBar(size),
-            if(isLoading)
+            if (isLoading)
               ..._buildShimmerContent(size)
             else
-              ..._buildMainContent(size, productItem, brandShops)
+              ..._buildMainContent(size),
           ],
         ),
       ),
-
     );
   }
 
@@ -123,113 +81,137 @@ class _HomePageState extends State<HomePage> {
           final top = constraints.biggest.height;
           const double collapseThreshold = kToolbarHeight + 52;
           final isCollapsed = top <= collapseThreshold;
-          print("Current height: $top, Current collapseThreshold: $collapseThreshold");
+          print(
+            "Current height: $top, Current collapseThreshold: $collapseThreshold",
+          );
           return AnimatedContainer(
             duration: Duration(milliseconds: 200),
             color: isCollapsed ? Colors.white : brandColor500,
             child: FlexibleSpaceBar(
               titlePadding: EdgeInsetsDirectional.only(start: 16, bottom: 12),
-              title: isCollapsed
-                  ? Container(
-                width: size.width * 0.6,
-                height: 36,
-                margin: const EdgeInsets.only(right: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: borderPrimary)
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    Icon(Icons.search, size: 20, color: mainColor),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        SharedString.searchHomeHintText,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textPlaceholder),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ) : null,
-                background: Container(
-                  padding: const EdgeInsets.only(top: 60, left: 16, right: 16),
-                  color: brandColor500,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
+              title:
+                  isCollapsed
+                      ? Container(
                         width: size.width * 0.6,
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              backgroundImage: AssetImage(SharedImage.profilePic),
-                            ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(SharedString.greeting, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white)),
-                                  Text(SharedString.username, maxLines: 1, overflow: TextOverflow.ellipsis, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white)),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 8,),
-                      Container(
-                        margin: EdgeInsets.symmetric(vertical: 16),
-                        height: 44,
+                        height: 36,
+                        margin: const EdgeInsets.only(right: 12),
                         decoration: BoxDecoration(
-                          color: Colors.white24,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.white10)
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: borderPrimary),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Row(
                           children: [
-                            Icon(Icons.search, size: 20, color: Colors.white),
+                            Icon(Icons.search, size: 20, color: mainColor),
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 SharedString.searchHomeHintText,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: textPlaceholder),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
+                      )
+                      : null,
+              background: Container(
+                padding: const EdgeInsets.only(top: 52, left: 16, right: 16),
+                color: brandColor500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.6,
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: AssetImage(SharedImage.profilePic),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  SharedString.greeting,
+                                  style: Theme.of(context).textTheme.bodySmall
+                                      ?.copyWith(color: Colors.white),
+                                ),
+                                Text(
+                                  SharedString.username,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(color: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                )
-
+                    ),
+                    SizedBox(height: 8),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 16),
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: Colors.white24,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: Colors.white10),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: [
+                          Icon(Icons.search, size: 20, color: Colors.white),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              SharedString.searchHomeHintText,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.comment_outlined, color: isCollapsed ? Colors.black : Colors.white),
+          icon: Icon(
+            Icons.comment_outlined,
+            color: isCollapsed ? Colors.black : Colors.white,
+          ),
           onPressed: () {},
         ),
         IconButton(
-          icon: Icon(Icons.notifications_none_outlined, color: isCollapsed ? Colors.black : Colors.white),
+          icon: Icon(
+            Icons.notifications_none_outlined,
+            color: isCollapsed ? Colors.black : Colors.white,
+          ),
           onPressed: () {},
         ),
         IconButton(
-          icon: Icon(Icons.shopping_cart_outlined, color: isCollapsed ? Colors.black : Colors.white),
+          icon: Icon(
+            Icons.shopping_cart_outlined,
+            color: isCollapsed ? Colors.black : Colors.white,
+          ),
           onPressed: () {},
         ),
       ],
     );
   }
 
-  List<Widget> _buildMainContent(Size size, List<Widget> productItem, List<Widget> brandShops) {
+  List<Widget> _buildMainContent(Size size) {
     return [
       SliverToBoxAdapter(
         child: Container(
@@ -242,7 +224,19 @@ class _HomePageState extends State<HomePage> {
                   width: size.width * 0.9,
                   height: 179,
                   child: CarouselSlider(
-                    items: imgList.map((item) => ClipRRect(borderRadius: BorderRadius.circular(8), child: Image.asset(item, fit: BoxFit.cover, width: double.infinity))).toList(),
+                    items:
+                        imgList
+                            .map(
+                              (item) => ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.asset(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              ),
+                            )
+                            .toList(),
                     carouselController: _controller,
                     options: CarouselOptions(
                       autoPlay: true,
@@ -263,20 +257,24 @@ class _HomePageState extends State<HomePage> {
                 bottom: 0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: imgList.asMap().entries.map((entry) {
-                    return GestureDetector(
-                      onTap: () => _controller.animateToPage(entry.key),
-                      child: Container(
-                        width: 6,
-                        height: 6,
-                        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                  children:
+                      imgList.asMap().entries.map((entry) {
+                        return GestureDetector(
+                          onTap: () => _controller.animateToPage(entry.key),
+                          child: Container(
+                            width: 6,
+                            height: 6,
+                            margin: EdgeInsets.symmetric(
+                              vertical: 8.0,
+                              horizontal: 4.0,
+                            ),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                 ),
               ),
             ],
@@ -297,16 +295,26 @@ class _HomePageState extends State<HomePage> {
                 width: 140,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: grayLight50,
+                  color: bgSecondary,
                 ),
                 child: Row(
                   children: [
-                    Expanded(child: Icon(memberPoint != null ? Icons.card_giftcard : Icons.credit_card)),
+                    Expanded(
+                      child: Icon(
+                        memberPoint != null
+                            ? Icons.card_giftcard
+                            : Icons.credit_card,
+                      ),
+                    ),
                     Expanded(
                       flex: 2,
                       child: Text(
-                        memberPoint != null ? 'Poin $memberPoint' : 'Upgrade to HPC!',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                        memberPoint != null
+                            ? 'Poin $memberPoint'
+                            : 'Upgrade to HPC!',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
@@ -319,7 +327,7 @@ class _HomePageState extends State<HomePage> {
                 width: 291,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  color: grayLight50,
+                  color: bgSecondary,
                 ),
                 child: Row(
                   children: [
@@ -330,7 +338,9 @@ class _HomePageState extends State<HomePage> {
                         'Dikirim ke Rumah Stephen Giovanni Saputra',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
@@ -365,7 +375,9 @@ class _HomePageState extends State<HomePage> {
                     'Menu Name',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(fontSize: 10),
                   ),
                 ],
               );
@@ -375,13 +387,15 @@ class _HomePageState extends State<HomePage> {
       ),
       SliverToBoxAdapter(
         child: CustomSectionWidget(
-          productItem: productItem,
           title: 'Sat Set Flash Sale',
+          itemHeight: 272,
           subtitle: Row(
             children: [
               Text(
                 "Berakhir dalam ",
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: textSecondary),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: textSecondary),
               ),
               Container(
                 width: 99,
@@ -397,12 +411,18 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
-                        child: Icon(Icons.watch_later_outlined, size: 12, color: Colors.white),
+                        child: Icon(
+                          Icons.watch_later_outlined,
+                          size: 12,
+                          color: Colors.white,
+                        ),
                       ),
                       const WidgetSpan(child: SizedBox(width: 6)),
                       TextSpan(
                         text: '02 : 02 : 02',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.copyWith(color: Colors.white),
                       ),
                     ],
                   ),
@@ -410,18 +430,50 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          seeDetailTapped: () {},
+          seeDetailTapped: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => new SectionDetailPage(),
+              ),
+            );
+          },
+          itemCount: dummyProducts.length,
+          item: (index) {
+            final item = dummyProducts[index];
+            return ProductCard(
+              product: Product(
+                name: item.name,
+                price: item.price,
+                realPrice: item.realPrice,
+                image: item.image,
+                quantity: item.quantity,
+                desc: item.desc,
+                type: item.type,
+                isSale: true,
+                rating: item.rating
+              ),
+              isSale: true,
+            );
+          },
         ),
       ),
       SliverToBoxAdapter(
         child: CustomSectionWidget(
-          productItem: brandShops,
           title: 'Belanja dari Official Brand Shop',
+          itemHeight: 240,
           subtitle: Text(
             "Dikelola langsung oleh MyHartono",
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: textSecondary),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: textSecondary),
           ),
           seeDetailTapped: () {},
+          itemCount: officialBrands.length,
+          item: (index) {
+            final brand = officialBrands[index];
+            return BrandShopCard(officialBrand: OfficalBrand(title: brand.title, image: brand.image, backgroundImage: brand.backgroundImage),);
+          },
         ),
       ),
     ];
@@ -443,120 +495,121 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: 5,
-            itemBuilder: (_, __) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    shimmerBox(height: 52, width: 52),
-                    const SizedBox(height: 8),
-                    shimmerBox(height: 32, width: 64),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          height: 44,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              shimmerBox(height: 24, width: double.infinity),
-              const SizedBox(height: 4),
-              shimmerBox(height: 16, width: size.width * 0.5),
-            ],
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SizedBox(
-          height: 232,
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (_, __) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  shimmerBox(height: 144, width: 144),
-                  const SizedBox(height: 8),
-                  shimmerBox(height: 32, width: 144),
-                  SizedBox(height: 4,),
-                  shimmerBox(height: 20, width: 86),
-                  SizedBox(height: 8,),
-                  Row(
-                    children: [
-                      shimmerBox(height: 16, width: 16),
-                      SizedBox(width: 2,),
-                      shimmerBox(height: 16, width: 16),
-                    ],
-                  )
-                ],
-              )
-            ),
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          height: 44,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              shimmerBox(height: 24, width: double.infinity),
-              const SizedBox(height: 4),
-              shimmerBox(height: 16, width: size.width * 0.5),
-            ],
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: SizedBox(
-          height: 232,
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (_, __) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    shimmerBox(height: 144, width: 144),
-                    const SizedBox(height: 8),
-                    shimmerBox(height: 32, width: 144),
-                    SizedBox(height: 4,),
-                    shimmerBox(height: 20, width: 86),
-                    SizedBox(height: 8,),
-                    Row(
+            itemBuilder:
+                (_, __) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        shimmerBox(height: 16, width: 16),
-                        SizedBox(width: 2,),
-                        shimmerBox(height: 16, width: 16),
+                        shimmerBox(height: 52, width: 52),
+                        const SizedBox(height: 8),
+                        shimmerBox(height: 32, width: 64),
                       ],
-                    )
-                  ],
-                )
-            ),
+                    ),
+                  ),
+                ),
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          height: 44,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              shimmerBox(height: 24, width: double.infinity),
+              const SizedBox(height: 4),
+              shimmerBox(height: 16, width: size.width * 0.5),
+            ],
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: SizedBox(
+          height: 232,
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            itemBuilder:
+                (_, __) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      shimmerBox(height: 144, width: 144),
+                      const SizedBox(height: 8),
+                      shimmerBox(height: 32, width: 144),
+                      SizedBox(height: 4),
+                      shimmerBox(height: 20, width: 86),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          shimmerBox(height: 16, width: 16),
+                          SizedBox(width: 2),
+                          shimmerBox(height: 16, width: 16),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          height: 44,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              shimmerBox(height: 24, width: double.infinity),
+              const SizedBox(height: 4),
+              shimmerBox(height: 16, width: size.width * 0.5),
+            ],
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: SizedBox(
+          height: 232,
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            itemBuilder:
+                (_, __) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      shimmerBox(height: 144, width: 144),
+                      const SizedBox(height: 8),
+                      shimmerBox(height: 32, width: 144),
+                      SizedBox(height: 4),
+                      shimmerBox(height: 20, width: 86),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [
+                          shimmerBox(height: 16, width: 16),
+                          SizedBox(width: 2),
+                          shimmerBox(height: 16, width: 16),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
           ),
         ),
       ),
     ];
   }
 }
-
-

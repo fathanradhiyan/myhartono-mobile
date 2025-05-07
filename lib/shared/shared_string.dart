@@ -6,6 +6,9 @@ class SharedString {
   //B
   //C
   static const String category = "Kategori";
+
+  //E
+  static const String eventName = "Sat Set Flash Sale";
   //G
   static const String greeting = "Selamat Siang!";
   //K

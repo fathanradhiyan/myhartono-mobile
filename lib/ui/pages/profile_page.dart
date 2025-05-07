@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: grayLight50,
+      backgroundColor: bgSecondary,
       appBar: AppBar(
         title: Text(SharedString.myProfile),
         backgroundColor: Colors.white,
