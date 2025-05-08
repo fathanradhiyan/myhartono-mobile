@@ -27,6 +27,9 @@ Color warningColor = Color(0xFFFFCB05);
 //LinearGradien red
 Color redOne = Color(0xFFD92D20);
 
+//button
+Color btnTertiary = Color(0xFF475467);
+
 //Bar Tersedia
 Color redBar = Color(0xFFD92D20);
 Color yellowBar = Color(0xFFE8B905);
