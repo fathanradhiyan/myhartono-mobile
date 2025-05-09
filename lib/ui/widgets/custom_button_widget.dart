@@ -2,43 +2,75 @@ part of 'widgets.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   final double? height;
-  final GestureTapCallback onClick;
-  final String text;
-  final Color? color;
-  final Widget icon;
+  final double? width;
+  final VoidCallback onClick;
+  final String? text;
+  final Widget? icon;
   final bool isGradient;
-  const CustomButtonWidget(this.context, {
-    super.key,
-    this.height, required this.onClick, required this.text, this.color, required this.icon, this.isGradient = false,
-  });
+  final bool isMainGradient;
+  final Color? color;
+  final Color? fontColor;
 
-  final BuildContext context;
+  const CustomButtonWidget({
+    super.key,
+    this.height,
+    this.width,
+    required this.onClick,
+    this.text,
+    this.icon,
+    this.isGradient = false,
+    this.isMainGradient = true,
+    this.color, this.fontColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onClick,
-      child: Container(
+    final Color effectiveTextColor =
+    isGradient ? Colors.white : (fontColor ?? textPrimary);
+
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onClick,
+        splashColor:
+        isGradient ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.1),
+        highlightColor:
+        isGradient ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.05),
+        child: Ink(
           height: height ?? 44,
+          width: width,
           decoration: BoxDecoration(
-            color: isGradient ? null : color ?? Colors.white,
+            borderRadius: BorderRadius.circular(12),
             gradient: isGradient
                 ? LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [brandColor400, brandColor500],
+              colors: isMainGradient
+                  ? [brandColor400, brandColor500]
+                  : [errorColor400, errorColor600],
             )
                 : null,
-            borderRadius: BorderRadius.circular(12),
+            color: isGradient ? null : color ?? Colors.white,
+            border: isGradient ? null : Border.all(color: borderPrimary),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              icon,
-              SizedBox(width: 8,),
-              Text(text.toString(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: color),),
+              if (icon != null) icon!,
+              if (icon != null && text != null) SizedBox(width: 8),
+              if (text != null)
+                Text(
+                  text!,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: effectiveTextColor,
+                    fontWeight: FontWeight.w500
+                  ),
+                ),
             ],
-          )
+          ),
+        ),
       ),
     );
   }

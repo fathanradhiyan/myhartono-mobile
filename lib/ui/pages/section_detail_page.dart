@@ -32,7 +32,7 @@ class _SectionDetailPageState extends State<SectionDetailPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [
-                    redOne,
+                    errorColor600,
                     errorSecondaryColor
                   ]
               )

@@ -62,7 +62,7 @@ class ProductCard extends StatelessWidget {
                                     width: 80,
                                     height: 8,
                                     decoration: BoxDecoration(
-                                      color: CupertinoColors.systemGrey4,
+                                      color: Colors.black12,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
@@ -75,7 +75,7 @@ class ProductCard extends StatelessWidget {
                                           : product.quantity! > 15
                                           ? yellowBar
                                           : product.quantity! > 0
-                                          ? redBar
+                                          ? errorColor600
                                           : Colors.white10,
                                       borderRadius: BorderRadius.circular(8),
                                     ),

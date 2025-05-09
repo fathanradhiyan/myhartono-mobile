@@ -12,6 +12,8 @@ class SharedString {
   //G
   static const String greeting = "Selamat Siang!";
   //K
+  //L
+  static const String logout = "Log Out";
 
 
   //M
@@ -25,6 +27,7 @@ class SharedString {
 
   //S
   static const String searchHomeHintText = 'Cari barang di Hartono';
+  static const String settingAccount = 'Pengaturan Akun';
 
   //T
   static const String transaction = "Transaksi";

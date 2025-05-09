@@ -17,3 +17,4 @@ part 'home_page.dart';
 part 'profile_page.dart';
 part 'product_detail_page.dart';
 part 'section_detail_page.dart';
+part 'profile_setting_page.dart';

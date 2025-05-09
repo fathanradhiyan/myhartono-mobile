@@ -13,7 +13,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   final CarouselSliderController _controller = CarouselSliderController();
   int _current = 0;
   bool isLoading = false;
-  bool eventStart = false;
+  bool eventStart = true;
 
   final List<String> imgList = [
     SharedImage.bannerOne,
@@ -125,21 +125,59 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         height: 60,
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [redOne, errorSecondaryColor]),
+          gradient: LinearGradient(colors: [errorColor600, errorSecondaryColor]),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             eventStart
-                ? Text(
-                  'Sedang berjalan!',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
+                ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      SharedString.eventName,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              width: 80,
+                              height: 8,
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            Container(
+                              width: widget.product.quantity!.toDouble(),
+                              height: 8,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 8,),
+                        Text(
+                          'Sisa ${widget.product.quantity} lagi',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall!.copyWith(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ],
                 )
                 : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       SharedString.eventName,
@@ -181,7 +219,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         const WidgetSpan(child: SizedBox(width: 4)),
                         TextSpan(
-                          text: '7 hari lagi',
+                          text: '02 : 02 : 02',
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(color: Colors.white),
@@ -228,107 +266,117 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
       ),
       Container(
+        height: size.height * 0.25,
         color: Colors.white,
         padding: EdgeInsets.symmetric(vertical: 24),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: Text(
-                      widget.product.name,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge,
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        widget.product.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 2),
-                      child: Icon(Icons.favorite_border, color: btnTertiary),
+                    Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 2),
+                        child: Icon(Icons.favorite_border, color: btnTertiary),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(
-              height: 28,
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                physics: BouncingScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  // Member Point
-                  Container(
-                    width: size.width * 0.6,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(99),
-                      border: Border.all(color: Colors.black.withOpacity(0.05)),
-                      color: bgSecondary,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Icon(Icons.g_mobiledata, color: mainColor),
+            Expanded(
+              child: SizedBox(
+                height: 28,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  physics: BouncingScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    // Member Point
+                    Container(
+                      width: size.width * 0.6,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(99),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.05),
                         ),
-                        Expanded(
-                          flex: 4,
-                          child: Text(
-                            'Penawaran khusus tersedia',
-                            maxLines: 1,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: textTertiary,
+                        color: bgSecondary,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Icon(Icons.g_mobiledata, color: mainColor),
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: Text(
+                              'Penawaran khusus tersedia',
+                              maxLines: 1,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: textTertiary,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 4),
-                  // Address Info
-                  Container(
-                    width: size.width * 0.65,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(99),
-                      border: Border.all(color: Colors.black.withOpacity(0.05)),
-                      color: bgSecondary,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Icon(Icons.g_mobiledata, color: mainColor),
+                    SizedBox(width: 4),
+                    // Address Info
+                    Container(
+                      width: size.width * 0.65,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(99),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.05),
                         ),
-                        Expanded(
-                          flex: 5,
-                          child: Text(
-                            'Aman dengan Garansi Eksternal',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: textTertiary,
+                        color: bgSecondary,
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Icon(Icons.g_mobiledata, color: mainColor),
+                          ),
+                          Expanded(
+                            flex: 5,
+                            child: Text(
+                              'Aman dengan Garansi Eksternal',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: textTertiary,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 16),
+            Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -342,14 +390,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                   ),
                   SizedBox(width: 4),
-                  Text(
+                  widget.product.realPrice != null ? Text(
                     'Rp${widget.product.realPrice}',
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: textPlaceholder,
                       decoration: TextDecoration.lineThrough,
                       decorationColor: textPlaceholder,
                     ),
-                  ),
+                  ): SizedBox(),
                 ],
               ),
             ),
@@ -375,26 +423,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       ),
       Spacer(),
       Container(
-        height: 102,
+        height: size.height * 0.1,
         color: Colors.white,
         padding: EdgeInsets.all(16),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
-                height: 44,
-                width: 44,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: borderPrimary),
-                ),
-                child: Icon(
-                  Icons.comment_outlined,
-                  size: 20,
-                  color: btnTertiary,
-                ),
-              ),
+              child: CustomButtonWidget(height: 44, width: 44, onClick: () {}, icon: Icon(
+                Icons.comment_outlined,
+                size: 20,
+                color: btnTertiary,
+              ),)
             ),
             SizedBox(width: 8),
             Expanded(
@@ -402,23 +442,25 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: borderPrimary),
-                      ),
-                      child: Icon(
-                        Icons.comment_outlined,
-                        size: 20,
+                    child: CustomButtonWidget(
+                      onClick: () {},
+                      text: 'Bandingkan',
+                      icon: Icon(
+                        Icons.compare_arrows,
                         color: btnTertiary,
+                        size: 12,
                       ),
                     ),
                   ),
                   SizedBox(width: 8),
                   Expanded(
-                    child: CustomButtonWidget(context, onClick: () {  }, text: 'Keranjang', icon: Icon(Icons.add, color: Colors.white, size: 12,), color: Colors.white, isGradient: true,),
+                    child: CustomButtonWidget(
+                      onClick: () {},
+                      text: 'Keranjang',
+                      icon: Icon(Icons.add, color: Colors.white, size: 12),
+                      color: Colors.white,
+                      isGradient: true,
+                    ),
                   ),
                 ],
               ),
@@ -492,5 +534,3 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     ];
   }
 }
-
-
